@@ -8,7 +8,7 @@ import {
   Award,
   TrendingUp,
   Settings,
-  Users
+  Users,
 } from "lucide-react"
 
 export const iconMap: Record<string, any> = {

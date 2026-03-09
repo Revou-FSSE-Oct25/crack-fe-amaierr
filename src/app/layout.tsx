@@ -4,6 +4,11 @@ import "./globals.css";
 import Sidebar from "@/components/layouts/sidebar";
 import Header from "@/components/layouts/header";
 
+const studentMenuItems = [
+  { path: 'dashboard', label: 'Dashboard', icon: "Home", count: null },
+  { path: 'my-courses', label: 'My Courses', icon: "BookOpen", count: 4 },
+];
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,8 +37,8 @@ export default function RootLayout({
         <div>
           <Header />
 
-          <div className="flex h-[94vh]">
-            <Sidebar />
+          <div className="flex h-[90vh]">
+            <Sidebar menu={studentMenuItems} />
 
             <main className="p-6 basis-full overflow-y-auto">
               {children}
