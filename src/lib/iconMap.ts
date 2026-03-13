@@ -9,6 +9,8 @@ import {
   TrendingUp,
   Settings,
   Users,
+  Home,
+  GraduationCap
 } from "lucide-react"
 
 export const iconMap: Record<string, any> = {
@@ -22,4 +24,6 @@ export const iconMap: Record<string, any> = {
   TrendingUp,
   Settings,
   Users,
+  Home,
+  GraduationCap
 }

@@ -2,7 +2,7 @@ import { Bell, GraduationCap, Search } from "lucide-react"
 
 export default function Header() {
   return (
-    <header className="h-[10vh] bg-white border-b flex items-center justify-between px-6">
+    <header className="h-[7vh] bg-white border-b flex items-center justify-between px-6">
 
         <div className="flex items-center gap-2">
             <GraduationCap className="w-10 h-10 bg-black rounded-xl p-2" color="white" />
