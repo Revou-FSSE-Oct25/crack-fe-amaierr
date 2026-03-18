@@ -48,10 +48,34 @@ const deadlines: Deadline[] = [
   },
 ]
 
+const submissions = [
+    {
+      student: "Sarah Johnson",
+      assignment: "React Final Project",
+      course: "Web Development Course"
+    },
+    {
+      student: "Mike Chen",
+      assignment: "Database Assignment",
+      course: "Database Fundamentals"
+    },
+    {
+      student: "Emily Davis",
+      assignment: "CSS Animation",
+      course: "Advanced CSS"
+    }
+  ]
+
+  const performance = [
+    { course: "Web Development", score: 89 },
+    { course: "Database Fundamentals", score: 76 },
+    { course: "Advanced CSS", score: 92 }
+  ]
+
 export default function DashboardPage() {
   return (
-    <StudentDashboard/>
-    // <AdminDashboard/>
+    // <StudentDashboard/>
+    <AdminDashboard/>
   )
 }
 
@@ -204,57 +228,66 @@ function AdminDashboard(){
         <div className="bg-white p-6 rounded-xl border">
 
           {/* Recent Submission */}
-          <h2 className="font-medium mb-6">Recent Submission</h2>
-          <div className="space-y-6">
-            {activities.map((activity, index) => (
-              <div key={index} className="flex gap-4">
+          <h2 className="font-medium mb-4">
+            Recent Submissions
+          </h2>
 
-                <div
-                  className={`mt-2 h-2 w-2 rounded-full ${
-                    activity.highlight ? "bg-black" : "bg-gray-300"
-                  }`}
-                />
+          <div className="space-y-4">
 
+            {submissions.map((item, index) => (
+              <div key={index} className="flex justify-between items-center border rounded-lg px-4 py-3">
                 <div>
-                  <p className="text-sm">{activity.title}</p>
-                  <p className="text-xs text-gray-500">{activity.time}</p>
+
+                  <p className="font-medium">
+                    {item.student} - {item.assignment}
+                  </p>
+
+                  <p className="text-sm text-gray-500">
+                    {item.course}
+                  </p>
+
                 </div>
+
+                <button className="border px-4 py-1 rounded-lg text-sm hover:bg-gray-100">
+                  Grade
+                </button>
 
               </div>
             ))}
+
           </div>
         </div>
 
         {/* Course Performance */}
         <div className="bg-white p-6 rounded-xl border">
-          <h2 className="font-medium mb-6">Course Performance</h2>
-          <div className="space-y-4">
+          <h2 className="font-medium mb-4">
+            Course Performance
+          </h2>
 
-            {deadlines.map((item, index) => (
-              <div
-                key={index}
-                className="border rounded-lg p-4 flex justify-between items-center"
-              >
+          <div className="space-y-5">
 
-                <div>
-                  <p className="text-sm font-medium">{item.title}</p>
-                  <p className="text-xs text-gray-500">{item.course}</p>
+            {performance.map((item, index) => (
+              <div key={index}>
+                <div className="flex justify-between text-sm mb-1">
+                  <span>
+                    {item.course}
+                  </span>
+
+                  <span>
+                    {item.score}% avg
+                  </span>
                 </div>
 
-                <span
-                  className={`text-xs px-3 py-1 rounded-full ${
-                    item.status === "urgent"
-                      ? "bg-red-700 text-white"
-                      : "bg-gray-200"
-                  }`}
-                >
-                  {item.due}
-                </span>
-
+                <div className="w-full h-2 bg-gray-200 rounded-full">
+                  <div
+                    style={{ width: `${item.score}%` }}
+                    className="h-2 bg-black rounded-full"
+                  />
+                </div>
               </div>
             ))}
-
           </div>
+
         </div>
       </div>
     </div>

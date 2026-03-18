@@ -10,7 +10,8 @@ import {
   Settings,
   Users,
   Home,
-  GraduationCap
+  GraduationCap,
+  CirclePlus
 } from "lucide-react"
 
 export const iconMap: Record<string, any> = {
@@ -25,5 +26,6 @@ export const iconMap: Record<string, any> = {
   Settings,
   Users,
   Home,
-  GraduationCap
+  GraduationCap,
+  CirclePlus
 }
