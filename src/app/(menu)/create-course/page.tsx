@@ -4,8 +4,6 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CourseFormData, courseSchema } from "./createCourseSchema"
 
-
-
 export default function CreateCoursePage() {
 
   const {
