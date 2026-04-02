@@ -1,28 +1,35 @@
-import axios from "axios";
 import { cookies } from "next/headers";
+import { GetSessionAPI, LoginAPI } from "./API";
 
 export const AUTH_COOKIE = 'auth_token';
 
-interface Auth {
+export interface Auth {
     access_token: string
     refresh_token: string
 }
 
-type LoginData = {
+export interface User {
+  name: string
+  email: string
+  role: string
+  avatar: string
+}
+
+export type LoginData = {
     email: string
     password: string
 }
 
-type SignUpData = {
+export type SignUpData = {
     name: string
-    role: string
+    role?: string // belom ada di form signup
     email: string
     password: string
 }
 
 export async function login(data: LoginData){
     var auth 
-    await axios.post<Auth>('https://api.escuelajs.co/api/v1/auth/login', data)
+    await LoginAPI(data)
         .then((response) => (auth = response.data))
         .catch((error) => {throw new Error(error.response.data.message)})
 
@@ -43,22 +50,17 @@ export async function logout() {
     cookieStore.delete(AUTH_COOKIE);
 }
 
-// Atau masukin ke sign up page, nanti diredirect ke login page lagi, gausah masukin auth dlu pas signup
-export async function signUp(data: SignUpData){
-    var auth 
-    // Ganti APInya
-    await axios.post<Auth>('https://api.escuelajs.co/api/v1/auth/login', data)
-        .then((response) => (auth = response.data))
-        .catch((error) => {throw new Error(error.response.data.message)})
-
+export async function getSession(): Promise<User | null> {
     const cookieStore = await cookies();
-    
-    cookieStore.set(AUTH_COOKIE, auth!.access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        path: '/',
-    });
+    const token = cookieStore.get(AUTH_COOKIE);
 
-    return auth
+    if (!token) return null;
+
+    try {
+        const response = await GetSessionAPI(token.value)
+        return response.data;
+    } catch {
+        return null;
+    }
+  
 }

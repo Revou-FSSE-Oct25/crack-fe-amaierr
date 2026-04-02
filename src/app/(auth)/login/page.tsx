@@ -5,9 +5,15 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form"
 import { LoginFormData, loginSchema } from "./loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signupLink } from "@/lib/constant";
+import { redirect, useSearchParams } from "next/navigation";
+import { loginAction } from "./action";
 
 export default function loginPage() {
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
     const [isPending, startTransition] = useTransition();
+
 
     type LoginData = {
         email: string
@@ -15,16 +21,27 @@ export default function loginPage() {
     }
 
     const onSubmit = (data: LoginData) => {
-        console.log("login")
-      }
+        startTransition(async () => {
+            const result = await loginAction(data)
+            if (!result.success) {
+                setError('root', {
+                    type: 'manual',
+                    message: result.message,
+                });
+                return;
+            }
+            redirect(callbackUrl)
+        });
+    }
 
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors },
-      } = useForm<LoginFormData>({
+    } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema)
-      })
+    })
     
     return (
         <div className="min-h-screen flex items-center justify-center px-6">
@@ -41,7 +58,6 @@ export default function loginPage() {
                         type="text"
                         placeholder=" "
                         {...register('email')}
-                        disabled={isPending}
                         className={`peer w-full rounded-lg bg-zinc-300 border px-4 pt-6 pb-2 text-black outline-none transition 
                             ${errors.email
                             ? 'border-red-500'
@@ -64,7 +80,6 @@ export default function loginPage() {
                         type="password"
                         placeholder=" "
                         {...register('password')}
-                        disabled={isPending}
                         className={`peer w-full rounded-lg bg-zinc-300 border px-4 pt-6 pb-2 text-black outline-none transition
                             ${errors.password
                             ? 'border-red-500'
@@ -92,7 +107,7 @@ export default function loginPage() {
 
                 <p className="mt-6 text-sm text-zinc-800 text-center">
                 Don’t have an account?{' '}
-                    <Link href="/sign-up" className="text-zinc-500 hover:underline">
+                    <Link href={signupLink} className="text-zinc-500 hover:underline">
                         Sign up
                     </Link>
                 </p>

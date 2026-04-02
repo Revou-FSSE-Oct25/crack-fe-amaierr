@@ -4,6 +4,10 @@ import { useForm } from 'react-hook-form'
 import Link from 'next/link'
 import { SignUpFormData, signUpSchema } from './signUpSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTransition } from 'react'
+import { redirect } from 'next/navigation'
+import { SignUpAPI } from '@/lib/API'
+import { dashboardLink, loginLink } from '@/lib/constant'
 
 type SignupForm = {
   name: string
@@ -13,17 +17,30 @@ type SignupForm = {
 }
 
 function SignupPage() {
+  const [isPending, startTransition] = useTransition();
+
   const {
     register,
     handleSubmit,
-    watch,
+    setError,
     formState: { errors },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema)
   })
 
   const onSubmit = (data: SignupForm) => {
-    console.log(data)
+    startTransition(async () => {
+      await SignUpAPI(data)
+      .catch(
+        (error) => {
+            setError('root', {
+            type: 'manual',
+            message: error.response.data.message,
+          })
+        }
+      )
+      .finally(redirect(dashboardLink))
+    });
   }
 
   return (
@@ -145,15 +162,16 @@ function SignupPage() {
 
           <button
             type="submit"
+            disabled={isPending}
             className="w-full rounded-lg bg-zinc-900 py-3 font-semibold text-white transition hover:bg-zinc-700 active:scale-[0.98]"
           >
-            Sign Up
+            {isPending ? 'Signing Up...' : 'Sign Up'}
           </button>
         </form>
 
         <p className="mt-6 text-sm text-zinc-800 text-center">
           Already have an account?{' '}
-          <Link href="/login" className="text-zinc-500 hover:underline">
+          <Link href={loginLink} className="text-zinc-500 hover:underline">
             Login
           </Link>
         </p>
