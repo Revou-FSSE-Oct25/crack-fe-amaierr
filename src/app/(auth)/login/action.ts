@@ -1,3 +1,5 @@
+'use server'
+
 import { login as authLogin, LoginData } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 

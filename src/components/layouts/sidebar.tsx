@@ -1,19 +1,21 @@
-'use client'
+"use client";
 
-import Link from "next/link"
-import { iconMap } from "@/lib/iconMap"
-import { GraduationCap, Settings } from "lucide-react"
-import { useState } from "react"
+import Link from "next/link";
+import { iconMap } from "@/lib/iconMap";
+import { GraduationCap, Settings } from "lucide-react";
+import { useState } from "react";
 
-type MenuItem = {
-  index: number
-  label: string
-  path: string
-  icon: string
-  count?: number
-}
+export type MenuItem = {
+  menuIndex: number;
+  menu: {
+    label: string;
+    path: string;
+    icon: string;
+    count?: number;
+  };
+};
 
-export default function Sidebar({ menu }: { menu: MenuItem[] }) {
+export default function Sidebar({ menuItems }: { menuItems: MenuItem[] }) {
   const [activeIndex, setActiveIndex] = useState<number>(-2);
 
   const handleClick = (index: number) => {
@@ -28,49 +30,59 @@ export default function Sidebar({ menu }: { menu: MenuItem[] }) {
       </div>
 
       <nav className="flex-1 px-4 py-6 space-y-2">
-        {menu.map((item) => {
+        {menuItems.map((item) => {
           return (
-            <SidebarItem 
-              key={item.index}
+            <SidebarItem
+              key={item.menuIndex}
               item={item}
               activeIndex={activeIndex}
               handleClick={handleClick}
             />
-          )
+          );
         })}
       </nav>
 
       <div className="p-4 border-t">
         <SidebarItem
-          item={{path: 'settings', label: 'Settings', icon: "Settings", index: -1}}
+          item={{
+            menu: { path: "settings", label: "Settings", icon: "Settings" },
+            menuIndex: -1,
+          }}
           activeIndex={activeIndex}
           handleClick={handleClick}
         />
       </div>
-
-
     </aside>
-  )
+  );
 }
 
-function SidebarItem({ item, activeIndex, handleClick }: { item: MenuItem, activeIndex: number, handleClick: (index:number) => void }) {
-  const Icon = iconMap[item.icon]
+function SidebarItem({
+  item,
+  activeIndex,
+  handleClick,
+}: {
+  item: MenuItem;
+  activeIndex: number;
+  handleClick: (index: number) => void;
+}) {
+  const Icon = iconMap[item.menu.icon];
 
   return (
     <Link
-      href={item.path}
+      href={item.menu.path}
       className={`flex justify-between px-4 py-2 rounded-lg cursor-pointer
-      ${activeIndex === item.index ? "bg-gray-200 font-medium" : "hover:bg-gray-100"}`}
-      onClick={() => handleClick(item.index)}
+      ${activeIndex === item.menuIndex ? "bg-gray-200 font-medium" : "hover:bg-gray-100"}`}
+      onClick={() => handleClick(item.menuIndex)}
     >
       <div className="flex gap-3 items-center">
-        {Icon && <Icon size={18}/>}
-        <span>{item.label}</span>
+        {Icon && <Icon size={18} />}
+        <span>{item.menu.label}</span>
       </div>
-      {
-        item.count && ( <span className="bg-gray-100 rounded-md size-auto p-1 text-center text-sm font-semibold">{item.count}</span> )
-      }
+      {item.menu.count && (
+        <span className="bg-gray-100 rounded-md size-auto p-1 text-center text-sm font-semibold">
+          {item.menu.count}
+        </span>
+      )}
     </Link>
-  )
+  );
 }
-
