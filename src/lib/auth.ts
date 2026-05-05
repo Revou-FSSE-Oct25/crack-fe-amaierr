@@ -37,24 +37,23 @@ export async function logout() {
 }
 
 export async function getSession(): Promise<User> {
-    const cookieStore = await cookies();
-    const token = cookieStore.get(AUTH_COOKIE);
-
-    if (!token) throw new Error("Missing Token");
-
-    const response = await GetAuthUserAPI(token.value)
+    const response = await GetAuthUserAPI()
     .catch((error) => {throw new Error(error.response.data.message)})
     return response.data;
 }
 
 export async function getMenuAuth(): Promise<MenuItem[]>{
+    const response = await GetMenuAuthAPI()
+    .catch((error) => {throw new Error(error.response.data.message)})
+
+    return response.data;
+}
+
+export async function getAuthToken(){
     const cookieStore = await cookies();
     const token = cookieStore.get(AUTH_COOKIE);
 
     if (!token) throw new Error("Missing Token");
 
-    const response = await GetMenuAuthAPI(token.value)
-    .catch((error) => {throw new Error(error.response.data.message)})
-
-    return response.data;
+    return token
 }

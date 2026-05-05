@@ -1,19 +1,20 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { SettingsFormData, settingsSchema } from "./settingsSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getDefaultValue } from "./action";
+import { UpdateUserDetail } from "@/lib/API";
 
 export default function settingsPage() {
-  function onSubmit() {
-    console.log("Form data:");
+  const onSubmit: SubmitHandler<SettingsFormData> = async (data) => {
+    await UpdateUserDetail(data)
   }
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isLoading },
+    formState: { errors },
   } = useForm<SettingsFormData>({
     defaultValues: async () => {
       return await getDefaultValue();

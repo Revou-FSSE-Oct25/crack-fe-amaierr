@@ -14,7 +14,7 @@ export async function proxy(request: NextRequest){
     
     if (authCookie) {
         try {
-            const response = await GetAuthUserAPI(authCookie.value)
+            const response = await GetAuthUserAPI()
             user = response.data
         } catch {
             // Invalid cookie
