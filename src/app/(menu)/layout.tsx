@@ -1,8 +1,9 @@
 import Sidebar from "@/components/layouts/sidebar";
 import Header from "@/components/layouts/header";
-import { getMenuAuth } from "@/lib/auth";
+import { getMenuAuth, getSession } from "@/lib/auth";
 
 const menuItems = await getMenuAuth();
+const user = await getSession();
 export default function DashboardLayout({
   children,
 }: {
@@ -10,7 +11,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div>
-      <Header />
+      <Header user={user} />
 
       <div className="flex h-[93vh]">
         <Sidebar menuItems={menuItems} />

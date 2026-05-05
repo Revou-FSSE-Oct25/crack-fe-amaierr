@@ -1,11 +1,11 @@
 import { Award, BookOpen, Clock, TrendingUp } from "lucide-react";
-import { StatCard } from "./page";
+import { StatCard } from "@/components/statCard";
 
 type Activity = {
-  title: string
-  time: string
-  highlight?: boolean
-}
+  title: string;
+  time: string;
+  highlight?: boolean;
+};
 
 const activities: Activity[] = [
   {
@@ -21,14 +21,14 @@ const activities: Activity[] = [
     title: "Enrolled in: Advanced CSS Techniques",
     time: "3 days ago",
   },
-]
+];
 
 type Deadline = {
-  title: string
-  course: string
-  due: string
-  status?: "urgent" | "normal"
-}
+  title: string;
+  course: string;
+  due: string;
+  status?: "urgent" | "normal";
+};
 
 const deadlines: Deadline[] = [
   {
@@ -47,9 +47,9 @@ const deadlines: Deadline[] = [
     course: "Advanced CSS",
     due: "Due in 1 week",
   },
-]
+];
 
-export default function StudentDashboard(){
+export default function StudentDashboard() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-4 gap-4">
@@ -79,13 +79,11 @@ export default function StudentDashboard(){
 
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-xl border">
-
           {/* Recent Activity */}
           <h2 className="font-medium mb-6">Recent Activity</h2>
           <div className="space-y-6">
             {activities.map((activity, index) => (
               <div key={index} className="flex gap-4">
-
                 <div
                   className={`mt-2 h-2 w-2 rounded-full ${
                     activity.highlight ? "bg-black" : "bg-gray-300"
@@ -96,7 +94,6 @@ export default function StudentDashboard(){
                   <p className="text-sm">{activity.title}</p>
                   <p className="text-xs text-gray-500">{activity.time}</p>
                 </div>
-
               </div>
             ))}
           </div>
@@ -106,13 +103,11 @@ export default function StudentDashboard(){
         <div className="bg-white p-6 rounded-xl border">
           <h2 className="font-medium mb-6">Upcoming Deadlines</h2>
           <div className="space-y-4">
-
             {deadlines.map((item, index) => (
               <div
                 key={index}
                 className="border rounded-lg p-4 flex justify-between items-center"
               >
-
                 <div>
                   <p className="text-sm font-medium">{item.title}</p>
                   <p className="text-xs text-gray-500">{item.course}</p>
@@ -127,13 +122,11 @@ export default function StudentDashboard(){
                 >
                   {item.due}
                 </span>
-
               </div>
             ))}
-
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

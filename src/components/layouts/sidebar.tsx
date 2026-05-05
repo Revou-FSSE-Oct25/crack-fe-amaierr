@@ -4,16 +4,7 @@ import Link from "next/link";
 import { iconMap } from "@/lib/iconMap";
 import { GraduationCap, Settings } from "lucide-react";
 import { useState } from "react";
-
-export type MenuItem = {
-  menuIndex: number;
-  menu: {
-    label: string;
-    path: string;
-    icon: string;
-    count?: number;
-  };
-};
+import { MenuItem } from "@/interfaces/menuItem";
 
 export default function Sidebar({ menuItems }: { menuItems: MenuItem[] }) {
   const [activeIndex, setActiveIndex] = useState<number>(-2);

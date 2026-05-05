@@ -1,6 +1,7 @@
 'use server'
 
-import { login as authLogin, LoginData } from '@/lib/auth';
+import { LoginData } from '@/interfaces/LoginData';
+import { login as authLogin } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
 

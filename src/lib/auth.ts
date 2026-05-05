@@ -1,25 +1,10 @@
 import { cookies } from "next/headers";
-import { GetMenuAuthAPI, GetSessionAPI, LoginAPI } from "./API";
-import { MenuItem } from "@/components/layouts/sidebar";
+import { GetAuthUserAPI, GetMenuAuthAPI, LoginAPI } from "./API";
+import { MenuItem } from "@/interfaces/menuItem";
+import { User } from "@/interfaces/user";
+import { LoginData } from "@/interfaces/LoginData";
 
 export const AUTH_COOKIE = 'auth_token';
-
-export interface Auth {
-    access_token: string
-    refresh_token: string
-}
-
-export interface User {
-  name: string
-  email: string
-  role: string
-  avatar: string
-}
-
-export type LoginData = {
-    email: string
-    password: string
-}
 
 export type SignUpData = {
     name: string
@@ -51,19 +36,15 @@ export async function logout() {
     cookieStore.delete(AUTH_COOKIE);
 }
 
-export async function getSession(): Promise<User | null> {
+export async function getSession(): Promise<User> {
     const cookieStore = await cookies();
     const token = cookieStore.get(AUTH_COOKIE);
 
-    if (!token) return null;
+    if (!token) throw new Error("Missing Token");
 
-    try {
-        const response = await GetSessionAPI(token.value)
-        return response.data;
-    } catch {
-        return null;
-    }
-  
+    const response = await GetAuthUserAPI(token.value)
+    .catch((error) => {throw new Error(error.response.data.message)})
+    return response.data;
 }
 
 export async function getMenuAuth(): Promise<MenuItem[]>{
@@ -76,5 +57,4 @@ export async function getMenuAuth(): Promise<MenuItem[]>{
     .catch((error) => {throw new Error(error.response.data.message)})
 
     return response.data;
-  
 }
