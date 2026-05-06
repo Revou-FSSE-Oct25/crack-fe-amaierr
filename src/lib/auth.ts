@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { GetAuthUserAPI, GetMenuAuthAPI, LoginAPI } from "./API";
 import { MenuItem } from "@/interfaces/menuItem";
 import { User } from "@/interfaces/user";
-import { LoginData } from "@/interfaces/LoginData";
+import { LoginData } from "@/interfaces/loginData";
 
 export const AUTH_COOKIE = 'auth_token';
 

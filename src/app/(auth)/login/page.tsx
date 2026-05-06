@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signupLink } from "@/lib/constant";
 import { redirect, useSearchParams } from "next/navigation";
 import { loginAction } from "./action";
-import { LoginData } from "@/interfaces/LoginData";
+import { LoginData } from "@/interfaces/loginData";
 
 export default function loginPage() {
   const searchParams = useSearchParams();

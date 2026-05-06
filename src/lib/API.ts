@@ -2,10 +2,11 @@
 
 import axios from "axios"
 import { User } from "@/interfaces/user"
-import { Auth } from "@/interfaces/Auth"
-import { LoginData } from "@/interfaces/LoginData"
+import { Auth } from "@/interfaces/auth"
+import { LoginData } from "@/interfaces/loginData"
 import { SettingsFormData } from "@/app/(menu)/settings/settingsSchema"
 import { getAuthToken } from "./auth"
+import { Course } from "@/interfaces/course"
 
 const root = 'http://localhost:3010/'
 
@@ -46,4 +47,27 @@ export async function UpdateUserDetail(data: SettingsFormData){
             'Authorization': `Bearer ${token.value}`
         }
     })
+}
+
+export async function GetUnenrolledCourses(){
+    const token = await getAuthToken()
+    const res = await axios.get<Course[]>(root + 'courses/browse', {
+        headers: {
+            'Authorization': `Bearer ${token.value}`
+        }
+    })
+
+    // console.log(res.data);
+    return res.data;
+}
+
+export async function EnrollCourse(courseId: string){
+    const token = await getAuthToken()
+    return axios.post(root + `courses/enroll/${courseId}`, {}, {
+        headers: {
+            'Authorization': `Bearer ${token.value}`
+        }
+    }).catch((error) => {
+      console.log(error.response);
+    });
 }
