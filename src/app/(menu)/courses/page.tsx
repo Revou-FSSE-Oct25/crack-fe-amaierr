@@ -3,7 +3,7 @@
 import CourseCard from "@/components/courseCard";
 import CourseFilters from "@/components/filter";
 import { Course } from "@/interfaces/course";
-import { GetUnenrolledCourses } from "@/lib/API";
+import { GetUnenrolledCoursesAPI } from "@/lib/API";
 import { useEffect, useState } from "react";
 
 export default function CoursesPage() {
@@ -11,9 +11,7 @@ export default function CoursesPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const coursesRes = await GetUnenrolledCourses();
-      // const test = courses;
-      // console.log(test);
+      const coursesRes = await GetUnenrolledCoursesAPI();
       setCourses(coursesRes);
     }
 

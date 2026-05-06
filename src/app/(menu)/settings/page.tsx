@@ -3,12 +3,19 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SettingsFormData, settingsSchema } from "./settingsSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getDefaultValue } from "./action";
-import { UpdateUserDetail } from "@/lib/API";
+import { UpdateUserDetailAPI } from "@/lib/API";
+import { useUserStore } from "@/stores/userStore";
 
 export default function settingsPage() {
+  const {
+    user,
+    updateUserDetail
+  } = useUserStore()
+
   const onSubmit: SubmitHandler<SettingsFormData> = async (data) => {
-    await UpdateUserDetail(data)
+    const res = await UpdateUserDetailAPI(data)
+    console.log(res)
+    updateUserDetail(res)
   }
 
   const {
@@ -16,8 +23,9 @@ export default function settingsPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<SettingsFormData>({
-    defaultValues: async () => {
-      return await getDefaultValue();
+    defaultValues: {
+      name: user.name,
+      email: user.email
     },
     resolver: zodResolver(settingsSchema),
   });

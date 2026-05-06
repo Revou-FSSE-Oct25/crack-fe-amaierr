@@ -1,8 +1,9 @@
 "use client";
 
 import { Course } from "@/interfaces/course";
-import { EnrollCourse } from "@/lib/API";
+import { EnrollCourseAPI } from "@/lib/API";
 import { Clock, Users, Star, Play } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function CourseCard({
   id,
@@ -16,8 +17,11 @@ export default function CourseCard({
   rating,
   progress,
 }: Course) {
+  const router = useRouter();
+
   const handleEnrollClick = async () => {
-    const result = await EnrollCourse(id);
+    const result = await EnrollCourseAPI(id);
+    router.push('/my-courses')
     return result;
   };
 

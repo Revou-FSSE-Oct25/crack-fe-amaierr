@@ -7,6 +7,7 @@ import { LoginData } from "@/interfaces/loginData"
 import { SettingsFormData } from "@/app/(menu)/settings/settingsSchema"
 import { getAuthToken } from "./auth"
 import { Course } from "@/interfaces/course"
+import { MenuItem } from "@/interfaces/menuItem"
 
 const root = 'http://localhost:3010/'
 
@@ -20,36 +21,39 @@ export async function SignUpAPI(data: LoginData){
 
 export async function GetAuthUserAPI(){
     const token = await getAuthToken()
-    return axios.get<User>(root + 'users', {
+    const res = await axios.get<User>(root + 'users', {
         headers: {
             'Authorization': `Bearer ${token.value}`
         }
     })
+    return res.data
 }
 
 export async function GetMenuAuthAPI(){
     const token = await getAuthToken()
-    return axios.get(root + 'auth/menus', {
+    const res = await axios.get<MenuItem[]>(root + 'auth/menus', {
         headers: {
             'Authorization': `Bearer ${token.value}`
         }
     })
+    return res.data
 }
 
 export async function GetAllRoutesAPI(){
     return axios.get(root + 'menus')
 }
 
-export async function UpdateUserDetail(data: SettingsFormData){
+export async function UpdateUserDetailAPI(data: SettingsFormData){
     const token = await getAuthToken()
-    return axios.patch<User>(root + 'users', data, {
+    const res = await axios.patch<User>(root + 'users', data, {
         headers: {
             'Authorization': `Bearer ${token.value}`
         }
     })
+    return res.data
 }
 
-export async function GetUnenrolledCourses(){
+export async function GetUnenrolledCoursesAPI(){
     const token = await getAuthToken()
     const res = await axios.get<Course[]>(root + 'courses/browse', {
         headers: {
@@ -57,17 +61,16 @@ export async function GetUnenrolledCourses(){
         }
     })
 
-    // console.log(res.data);
     return res.data;
 }
 
-export async function EnrollCourse(courseId: string){
+export async function EnrollCourseAPI(courseId: string){
     const token = await getAuthToken()
-    return axios.post(root + `courses/enroll/${courseId}`, {}, {
+    const res = await axios.post(root + `courses/enroll/${courseId}`, {}, {
         headers: {
             'Authorization': `Bearer ${token.value}`
         }
-    }).catch((error) => {
-      console.log(error.response);
-    });
+    })
+
+    return res.data
 }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AUTH_COOKIE, getMenuAuth } from "./lib/auth";
-import { GetAllRoutesAPI, GetAuthUserAPI } from "./lib/API";
+import { AUTH_COOKIE } from "./lib/auth";
+import { GetAllRoutesAPI, GetAuthUserAPI, GetMenuAuthAPI } from "./lib/API";
 import { User } from "./interfaces/user";
 
 const ROUTES = await GetAllRoutesAPI()
@@ -15,7 +15,7 @@ export async function proxy(request: NextRequest){
     if (authCookie) {
         try {
             const response = await GetAuthUserAPI()
-            user = response.data
+            user = response
         } catch {
             // Invalid cookie
         }
@@ -41,7 +41,7 @@ export async function proxy(request: NextRequest){
         }
         
         // Role-based access control
-        const menuAuths = await getMenuAuth()
+        const menuAuths = await GetMenuAuthAPI()
         
         let authorized = false
         authorized = menuAuths.some(menuAuth => {
