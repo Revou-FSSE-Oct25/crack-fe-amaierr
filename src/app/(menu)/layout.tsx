@@ -1,11 +1,10 @@
-'use client'
+"use client";
 
 import Sidebar from "@/components/layouts/sidebar";
 import Header from "@/components/layouts/header";
 import { useUserStore } from "@/stores/userStore";
 import { GetAuthUserAPI, GetMenuAuthAPI } from "@/lib/API";
 import { useEffect, useState } from "react";
-import { User } from "@/interfaces/user";
 import { MenuItem } from "@/interfaces/menuItem";
 
 export default function DashboardLayout({
@@ -13,25 +12,20 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const {
-    user, 
-    updateUserDetail
-  } = useUserStore()
-  
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
-  useEffect(() => {
-    async function fetchData(){
-      const userRes = await GetAuthUserAPI();
-      updateUserDetail(userRes)
+  const { user, updateUserDetail } = useUserStore();
 
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  useEffect(() => {
+    async function fetchData() {
+      const userRes = await GetAuthUserAPI();
+      updateUserDetail(userRes);
 
       const menuItemsRes = await GetMenuAuthAPI();
-      setMenuItems(await menuItemsRes)
+      setMenuItems(await menuItemsRes);
     }
 
-    fetchData()
-  }, [])
-
+    fetchData();
+  }, []);
 
   return (
     <div>

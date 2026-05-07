@@ -7,6 +7,6 @@ export interface Course{
     rating: number
     image: string // belom ada di response backend
     duration?: number // belom ada di response backend
-    progress?: number
+    enrollments: {progressPercentage : number}[]
     instructor: {name : string}
   }

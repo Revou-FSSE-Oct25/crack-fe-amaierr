@@ -25,7 +25,7 @@ const performance = [
   { course: "Advanced CSS", score: 92 },
 ];
 
-export default function AdminDashboard() {
+export default function InstructorDashboard() {
   const totalStars = 5;
 
   return (

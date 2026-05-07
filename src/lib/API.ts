@@ -64,6 +64,17 @@ export async function GetUnenrolledCoursesAPI(){
     return res.data;
 }
 
+export async function GetMyCoursesAPI(){
+    const token = await getAuthToken()
+    const res = await axios.get<Course[]>(root + 'courses/my-courses', {
+        headers: {
+            'Authorization': `Bearer ${token.value}`
+        }
+    })
+
+    return res.data;
+}
+
 export async function EnrollCourseAPI(courseId: string){
     const token = await getAuthToken()
     const res = await axios.post(root + `courses/enroll/${courseId}`, {}, {

@@ -15,13 +15,13 @@ export default function CourseCard({
   duration,
   students,
   rating,
-  progress,
+  enrollments,
 }: Course) {
   const router = useRouter();
 
   const handleEnrollClick = async () => {
     const result = await EnrollCourseAPI(id);
-    router.push('/my-courses')
+    router.push("/my-courses");
     return result;
   };
 
@@ -63,19 +63,19 @@ export default function CourseCard({
           </div>
         </div>
 
-        {(progress && (
+        {(enrollments && (
           <>
             {/* Progress */}
             <div>
               <div className="flex justify-between text-xs text-gray-500 mb-1">
                 <span>Progress</span>
-                <span>{progress}%</span>
+                <span>{enrollments[0].progressPercentage}%</span>
               </div>
 
               <div className="w-full bg-gray-200 h-2 rounded-full">
                 <div
                   className="bg-black h-2 rounded-full"
-                  style={{ width: `${progress}%` }}
+                  style={{ width: `${enrollments[0].progressPercentage}%` }}
                 />
               </div>
             </div>
