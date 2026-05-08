@@ -5,18 +5,19 @@ import { SettingsFormData, settingsSchema } from "./settingsSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UpdateUserDetailAPI } from "@/lib/API";
 import { useUserStore } from "@/stores/userStore";
+import { logoutAction } from "@/app/(auth)/login/action";
 
 export default function settingsPage() {
-  const {
-    user,
-    updateUserDetail
-  } = useUserStore()
+  const { user, updateUserDetail } = useUserStore();
 
   const onSubmit: SubmitHandler<SettingsFormData> = async (data) => {
-    const res = await UpdateUserDetailAPI(data)
-    console.log(res)
-    updateUserDetail(res)
-  }
+    const res = await UpdateUserDetailAPI(data);
+    updateUserDetail(res);
+  };
+
+  const handleLogout = async () => {
+    await logoutAction();
+  };
 
   const {
     register,
@@ -25,7 +26,7 @@ export default function settingsPage() {
   } = useForm<SettingsFormData>({
     defaultValues: {
       name: user.name,
-      email: user.email
+      email: user.email,
     },
     resolver: zodResolver(settingsSchema),
   });
@@ -83,12 +84,21 @@ export default function settingsPage() {
               )}
             </div>
 
-            <button
-              type="submit"
-              className="mt-4 bg-black text-white px-5 py-2 rounded-lg"
-            >
-              Save Changes
-            </button>
+            <div className="mt-5 text-white space-x-2">
+              <button
+                type="submit"
+                className="px-5 py-2 rounded-lg bg-gray-950 hover:bg-gray-700 shadow-lg shadow-gray-700/20"
+              >
+                Save Changes
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="px-5 py-2 rounded-lg bg-red-700 hover:bg-red-600 shadow-lg shadow-red-700/20 "
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </form>

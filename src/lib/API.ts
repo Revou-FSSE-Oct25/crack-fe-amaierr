@@ -8,6 +8,8 @@ import { SettingsFormData } from "@/app/(menu)/settings/settingsSchema"
 import { getAuthToken } from "./auth"
 import { Course } from "@/interfaces/course"
 import { MenuItem } from "@/interfaces/menuItem"
+import { CourseFormData } from "@/app/(menu)/create-course/createCourseSchema"
+import { Category } from "@/interfaces/category"
 
 const root = 'http://localhost:3010/'
 
@@ -83,5 +85,21 @@ export async function EnrollCourseAPI(courseId: string){
         }
     })
 
+    return res.data
+}
+
+export async function CreateCourseAPI(courseData: CourseFormData){ 
+    const token = await getAuthToken()
+    const res = await axios.post(root + 'courses', courseData, {
+        headers: {
+            'Authorization': `Bearer ${token.value}`
+        }
+    })
+
+    return res.data
+}
+
+export async function GetAllCategoriesAPI(){
+    const res = await axios.get<Category[]>(root + 'categories')
     return res.data
 }

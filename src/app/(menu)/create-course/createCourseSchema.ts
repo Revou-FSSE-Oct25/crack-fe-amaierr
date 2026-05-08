@@ -9,13 +9,11 @@ export const courseSchema = z.object({
     .string()
     .min(20, "Description must be at least 20 characters"),
 
-  category: z.string(),
+  categoryId: z
+    .string()
+    .nonempty("Select one of the categories"),
 
-  level: z.enum(["Beginner", "Intermediate", "Advanced"]),
-
-  price: z
-    .number()
-    .min(0, "Price cannot be negative")
+  level: z.enum(["Beginner", "Intermediate", "Advanced"], "Select on of the levels")
 })
 
 export type CourseFormData = z.infer<typeof courseSchema>
