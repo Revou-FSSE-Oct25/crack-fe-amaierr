@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import {
   BookOpen,
   ChevronDown,
@@ -15,6 +14,8 @@ import {
   BadgeCheck,
   CircleCheck,
 } from "lucide-react";
+import { GetCourseDetailAPI } from "@/lib/API";
+import { useParams } from "next/navigation";
 
 type Lesson = {
   id: number;
@@ -127,10 +128,22 @@ export default function CourseDetailPage() {
   >("curriculum");
 
   const [openSection, setOpenSection] = useState<number | null>(1);
+  const [coursesDetail, setCoursesDetail] = useState();
+  const params = useParams<{ id: string }>()
 
   function toggleSection(id: number) {
     setOpenSection((prev) => (prev === id ? null : id));
   }
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const courseRes = await GetCourseDetailAPI(params.id);
+      console.log(courseRes)
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <div className="space-y-6">

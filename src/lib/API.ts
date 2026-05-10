@@ -11,7 +11,7 @@ import { MenuItem } from "@/interfaces/menuItem"
 import { CourseFormData } from "@/app/(menu)/create-course/createCourseSchema"
 import { Category } from "@/interfaces/category"
 
-const root = 'http://localhost:3010/'
+const root = process.env.API_URL
 
 export async function LoginAPI(data: LoginData){
     return axios.post<Auth>(root + 'auth/login', data)
@@ -101,5 +101,16 @@ export async function CreateCourseAPI(courseData: CourseFormData){
 
 export async function GetAllCategoriesAPI(){
     const res = await axios.get<Category[]>(root + 'categories')
+    return res.data
+}
+
+export async function GetCourseDetailAPI(courseId: string){
+    const token = await getAuthToken()
+    const res = await axios.get(root + `courses/${courseId}`, {
+        headers: {
+            'Authorization': `Bearer ${token.value}`
+        }
+    })
+
     return res.data
 }
