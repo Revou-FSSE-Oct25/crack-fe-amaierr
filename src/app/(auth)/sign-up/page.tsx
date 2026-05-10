@@ -11,6 +11,7 @@ import { dashboardLink, loginLink } from '@/lib/constant'
 
 type SignupForm = {
   name: string
+  role: string
   email: string
   password: string
   confirmPassword: string
@@ -30,16 +31,17 @@ function SignupPage() {
 
   const onSubmit = (data: SignupForm) => {
     startTransition(async () => {
-      await SignUpAPI(data)
-      .catch(
-        (error) => {
-            setError('root', {
-            type: 'manual',
-            message: error.response.data.message,
-          })
-        }
-      )
-      .finally(redirect(dashboardLink))
+      let res
+      try{
+        res = await SignUpAPI(data)
+      } catch (error: any){
+        setError('root', {
+          type: 'manual',
+          message: error.message,
+        })
+        return
+      }
+      redirect(loginLink)
     });
   }
 
@@ -75,6 +77,28 @@ function SignupPage() {
             {errors.name && (
               <p className="mt-1 text-sm text-red-500">
                 {errors.name.message}
+              </p>
+            )}
+          </div>
+
+          <div className="relative">
+            <select
+              {...register("role")}
+              className="peer w-full rounded-lg bg-zinc-300 border px-3 pt-7 pb-2 text-black outline-none" 
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Select a Role
+              </option>
+              <option value="de977148-95d3-4394-91b9-87a3f3594e77">Student</option>
+              <option value="1fe8b0f8-fbf6-4a12-8ce2-2f67215b8b18">Instructor</option>
+            </select>
+            <label className="absolute left-4 top-2 text-sm text-zinc-500">
+              Role
+            </label>
+            {errors.role && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.role.message}
               </p>
             )}
           </div>
@@ -175,6 +199,12 @@ function SignupPage() {
             Login
           </Link>
         </p>
+
+        {errors.root && (
+          <p className="text-sm text-red-500 text-center">
+            {errors.root.message}
+          </p>
+        )}
       </div>
     </div>
   )

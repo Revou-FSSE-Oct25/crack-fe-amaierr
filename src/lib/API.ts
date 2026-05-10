@@ -10,6 +10,7 @@ import { Course } from "@/interfaces/course"
 import { MenuItem } from "@/interfaces/menuItem"
 import { CourseFormData } from "@/app/(menu)/create-course/createCourseSchema"
 import { Category } from "@/interfaces/category"
+import { SignUpData } from "@/interfaces/signUpData"
 
 const root = process.env.API_URL
 
@@ -17,8 +18,12 @@ export async function LoginAPI(data: LoginData){
     return axios.post<Auth>(root + 'auth/login', data)
 }
 
-export async function SignUpAPI(data: LoginData){
-    return axios.post<Auth>('https://api.escuelajs.co/api/v1/auth/signUp', data)
+export async function SignUpAPI(data: SignUpData){
+    const res = await axios.post<Auth>(root + 'auth/register', data)
+    .catch((error) => {
+        throw new Error(error.response.data.message)
+    })
+    return res.data
 }
 
 export async function GetAuthUserAPI(){

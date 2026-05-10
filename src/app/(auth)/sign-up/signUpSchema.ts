@@ -1,9 +1,11 @@
 import { z } from "zod"
 
 export const signUpSchema = z.object({
-    name: z.string(),
+    name: z.string()
+    .nonempty("Name cannot be empty"),
 
-    role: z.enum(["Student", "Instructor"]),
+    role: z.string()
+    .nonempty("Role must be Selected"),
 
     email: z.email(),
 
