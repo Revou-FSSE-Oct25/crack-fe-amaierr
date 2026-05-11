@@ -5,13 +5,14 @@ type UserState = {
     user: User
     isInstructor: boolean
     updateUserDetail: (newData: User) => void
+    clearUserDetail: () => void
 }
 
 export const useUserStore = create<UserState>((set, get) => ({
     user: {name: '', email: '', role: ''},
     isInstructor: false,
     updateUserDetail: (newData: User) => {
-        const { user, isInstructor } = get()
+        const { user } = get()
 
         if(!user.role){
             set({user: newData})
@@ -25,5 +26,11 @@ export const useUserStore = create<UserState>((set, get) => ({
         if(user.role === "Instructor"){
             set({isInstructor: true})
         }
+    },
+    clearUserDetail: () => {
+        set(
+            {user: {name: '', email: '', role: ''},
+            isInstructor: false
+        })
     }
 }))

@@ -8,7 +8,7 @@ import { useUserStore } from "@/stores/userStore";
 import { logoutAction } from "@/app/(auth)/login/action";
 
 export default function settingsPage() {
-  const { user, updateUserDetail } = useUserStore();
+  const { user, updateUserDetail, clearUserDetail } = useUserStore();
 
   const onSubmit: SubmitHandler<SettingsFormData> = async (data) => {
     const res = await UpdateUserDetailAPI(data);
@@ -16,6 +16,7 @@ export default function settingsPage() {
   };
 
   const handleLogout = async () => {
+    clearUserDetail()
     await logoutAction();
   };
 

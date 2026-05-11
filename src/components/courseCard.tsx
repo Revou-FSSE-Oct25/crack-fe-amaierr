@@ -27,7 +27,7 @@ export default function CourseCard({ course, isInstructor }: CourseCardProps) {
 
       <div className="relative">
         <img
-          src={course.image}
+          src={course.image || "https://images.unsplash.com/photo-1498050108023-c5249f4df085"}
           alt={course.name}
           className="w-full h-48 object-cover"
         />

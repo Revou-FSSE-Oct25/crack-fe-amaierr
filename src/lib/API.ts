@@ -2,8 +2,6 @@
 
 import axios from "axios"
 import { User } from "@/interfaces/user"
-import { Auth } from "@/interfaces/auth"
-import { LoginData } from "@/interfaces/loginData"
 import { SettingsFormData } from "@/app/(menu)/settings/settingsSchema"
 import { getAuthToken } from "./auth"
 import { Course } from "@/interfaces/course"
@@ -11,6 +9,8 @@ import { MenuItem } from "@/interfaces/menuItem"
 import { CourseFormData } from "@/app/(menu)/create-course/createCourseSchema"
 import { Category } from "@/interfaces/category"
 import { SignUpData } from "@/interfaces/signUpData"
+import { LoginData } from "@/interfaces/loginData"
+import { Auth } from "@/interfaces/auth"
 
 const root = process.env.API_URL
 
@@ -111,7 +111,7 @@ export async function GetAllCategoriesAPI(){
 
 export async function GetCourseDetailAPI(courseId: string){
     const token = await getAuthToken()
-    const res = await axios.get<CourseDetail>(root + `courses/${courseId}`, {
+    const res = await axios.get<CourseDetail>(root + `courses/course/${courseId}`, {
         headers: {
             'Authorization': `Bearer ${token.value}`
         }

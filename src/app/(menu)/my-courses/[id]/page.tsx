@@ -42,54 +42,6 @@ type Assignment = {
   grade?: string;
 };
 
-type Review = {
-  id: number;
-  name: string;
-  rating: number;
-  comment: string;
-};
-
-const curriculumData: Section[] = [
-  {
-    id: 1,
-    title: "HTML Fundamentals",
-    lessons: [
-      {
-        id: 1,
-        title: "Introduction to HTML",
-        duration: "15 min",
-        completed: true,
-      },
-      {
-        id: 2,
-        title: "HTML Structure and Tags",
-        duration: "20 min",
-        completed: true,
-      },
-      {
-        id: 3,
-        title: "Forms and Input Elements",
-        duration: "25 min",
-      },
-      {
-        id: 4,
-        title: "HTML Quiz",
-        duration: "10 min",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "CSS Styling",
-    lessons: [],
-  },
-  {
-    id: 3,
-    title: "JavaScript Fundamentals",
-    lessons: [],
-  },
-];
-
 const assignments: Assignment[] = [
   {
     id: 1,
@@ -105,23 +57,6 @@ const assignments: Assignment[] = [
     points: 75,
     status: "submitted",
     grade: "85/75",
-  },
-];
-
-const reviews: Review[] = [
-  {
-    id: 1,
-    name: "Alex Thompson",
-    rating: 5,
-    comment:
-      "Excellent course! The instructor explains everything clearly and the projects are very practical.",
-  },
-  {
-    id: 2,
-    name: "Maria Garcia",
-    rating: 4,
-    comment:
-      "Great content and well-structured lessons. Helped me land my first web development job!",
   },
 ];
 
