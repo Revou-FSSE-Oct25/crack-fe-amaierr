@@ -60,7 +60,7 @@ function SidebarItem({
 
   return (
     <Link
-      href={item.menu.path}
+      href={`/${item.menu.path}`}
       className={`flex justify-between px-4 py-2 rounded-lg cursor-pointer
       ${activeIndex === item.menuIndex ? "bg-gray-200 font-medium" : "hover:bg-gray-100"}`}
       onClick={() => handleClick(item.menuIndex)}

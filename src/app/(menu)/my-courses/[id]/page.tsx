@@ -174,10 +174,15 @@ export default function CourseDetailPage() {
                 </div>
 
                 <div className="h-3 overflow-hidden rounded-full bg-gray-200">
-                  <div className="h-full w-[45%] bg-black" />
+                  <div 
+                    className="h-full bg-black" 
+                    style={{
+                      width: `${coursesDetail.enrollments[0].progressPercentage}%`,
+                    }}
+                  />
                 </div>
 
-                <p className="text-sm text-gray-500">45% complete</p>
+                <p className="text-sm text-gray-500">{coursesDetail.enrollments[0].progressPercentage}% complete</p>
               </div>
             )}
           </div>
