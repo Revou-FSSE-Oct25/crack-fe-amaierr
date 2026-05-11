@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTransition } from "react";
+import { Suspense, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { LoginFormData, loginSchema } from "./loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,7 +10,15 @@ import { redirect, useSearchParams } from "next/navigation";
 import { loginAction } from "./action";
 import { LoginData } from "@/interfaces/loginData";
 
-export default function loginPage() {
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading...</div>}>
+      <LoginForm/>
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const [isPending, startTransition] = useTransition();
