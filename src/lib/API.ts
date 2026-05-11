@@ -111,10 +111,12 @@ export async function GetAllCategoriesAPI(){
 
 export async function GetCourseDetailAPI(courseId: string){
     const token = await getAuthToken()
-    const res = await axios.get(root + `courses/${courseId}`, {
+    const res = await axios.get<CourseDetail>(root + `courses/${courseId}`, {
         headers: {
             'Authorization': `Bearer ${token.value}`
         }
+    }).catch((error) => {
+        throw new Error(error.response.data.message)
     })
 
     return res.data

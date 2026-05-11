@@ -6,6 +6,7 @@ import { useUserStore } from "@/stores/userStore";
 import { GetAuthUserAPI, GetMenuAuthAPI } from "@/lib/API";
 import { useEffect, useState } from "react";
 import { MenuItem } from "@/interfaces/menuItem";
+import Alert from "@/components/alert";
 
 export default function DashboardLayout({
   children,
@@ -29,6 +30,7 @@ export default function DashboardLayout({
 
   return (
     <div>
+      <Alert />
       <Header user={user!} />
 
       <div className="flex h-[93vh]">

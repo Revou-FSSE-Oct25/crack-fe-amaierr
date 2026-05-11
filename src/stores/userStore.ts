@@ -22,7 +22,6 @@ export const useUserStore = create<UserState>((set, get) => ({
                 role: user.role
             }})
         }
-
         if(user.role === "Instructor"){
             set({isInstructor: true})
         }

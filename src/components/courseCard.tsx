@@ -8,14 +8,11 @@ import LevelCategory from "./levelCategory";
 import Link from "next/link";
 
 type CourseCardProps = {
-  course: Course,
-  isInstructor?: boolean
+  course: Course;
+  isInstructor?: boolean;
 };
 
-export default function CourseCard({
-  course,
-  isInstructor
-}: CourseCardProps) {
+export default function CourseCard({ course, isInstructor }: CourseCardProps) {
   const router = useRouter();
 
   const handleEnrollClick = async () => {
@@ -29,9 +26,15 @@ export default function CourseCard({
       {/* Image */}
 
       <div className="relative">
-        <img src={course.image} alt={course.name} className="w-full h-48 object-cover" />
+        <img
+          src={course.image}
+          alt={course.name}
+          className="w-full h-48 object-cover"
+        />
 
-        <LevelCategory level={course.levelType} />
+        <div className="absolute top-3 right-3">
+          <LevelCategory level={course.levelType} />
+        </div>
       </div>
 
       {/* Content */}
@@ -41,7 +44,9 @@ export default function CourseCard({
 
         <p className="text-sm text-gray-500">by {course.instructor.name}</p>
 
-        <p className="text-sm text-gray-600 line-clamp-2">{course.description}</p>
+        <p className="text-sm text-gray-600 line-clamp-2">
+          {course.description}
+        </p>
 
         {/* Course Stats */}
 
@@ -62,8 +67,8 @@ export default function CourseCard({
           </div>
         </div>
 
-        { !isInstructor && (
-          (course.enrollments && (
+        {(!isInstructor &&
+          ((course.enrollments && (
             <>
               {/* Progress */}
               <div>
@@ -75,13 +80,15 @@ export default function CourseCard({
                 <div className="w-full bg-gray-200 h-2 rounded-full">
                   <div
                     className="bg-black h-2 rounded-full"
-                    style={{ width: `${course.enrollments[0].progressPercentage}%` }}
+                    style={{
+                      width: `${course.enrollments[0].progressPercentage}%`,
+                    }}
                   />
                 </div>
               </div>
 
               {/* Button */}
-              <Link 
+              <Link
                 href={`/my-courses/${course.id}`}
                 className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-700"
               >
@@ -96,9 +103,8 @@ export default function CourseCard({
             >
               Enroll Now
             </button>
-          )
-        ) || (
-          <Link 
+          ))) || (
+          <Link
             href={`/my-courses/${course.id}`}
             className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-700"
           >
