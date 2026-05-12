@@ -4,10 +4,12 @@ import CourseCard from "@/components/courseCard";
 import CourseFilters from "@/components/filter";
 import { Course } from "@/interfaces/course";
 import { GetUnenrolledCoursesAPI } from "@/lib/API";
+import { useCourseFilterStore } from "@/stores/coursesFilterStore";
 import { useEffect, useState } from "react";
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
+  const { category, level, setCategory, setLevel } = useCourseFilterStore();
 
   useEffect(() => {
     async function fetchData() {
@@ -31,7 +33,12 @@ export default function CoursesPage() {
 
       {/* Filters */}
 
-      <CourseFilters />
+      <CourseFilters
+        defaultCategory={category}
+        defaultLevel={level}
+        setCategoryValue={setCategory}
+        setLevelValue={setLevel}
+      />
 
       {/* Courses */}
 
