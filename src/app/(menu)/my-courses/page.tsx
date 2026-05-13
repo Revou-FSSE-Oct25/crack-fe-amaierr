@@ -7,16 +7,22 @@ import { GetMyCoursesAPI } from "@/lib/API";
 import { useMyCourseFilterStore } from "@/stores/my-courseFilterStore";
 import { useUserStore } from "@/stores/userStore";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const { isInstructor } = useUserStore();
-  const { category, level, setCategory, setLevel } = useMyCourseFilterStore();
+  const { title, category, level, setTitleFilter, setCategory, setLevel } =
+    useMyCourseFilterStore();
 
   useEffect(() => {
     async function fetchData() {
-      const coursesRes = await GetMyCoursesAPI();
-      setCourses(coursesRes);
+      try {
+        const coursesRes = await GetMyCoursesAPI({ title, category, level });
+        setCourses(coursesRes);
+      } catch (error: any) {
+        toast.error(error.message);
+      }
     }
 
     fetchData();
@@ -24,12 +30,16 @@ export default function CoursesPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const coursesRes = await GetMyCoursesAPI();
-      setCourses(coursesRes);
+      try {
+        const coursesRes = await GetMyCoursesAPI({ title, category, level });
+        setCourses(coursesRes);
+      } catch (error: any) {
+        toast.error(error.message);
+      }
     }
 
     fetchData();
-  }, [category, level]);
+  }, [title, category, level]);
 
   return (
     <div className="space-y-6">
@@ -43,6 +53,7 @@ export default function CoursesPage() {
       {/* Filters */}
 
       <CourseFilters
+        setTitleFilter={setTitleFilter}
         defaultCategory={category}
         defaultLevel={level}
         setCategoryValue={setCategory}

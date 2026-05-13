@@ -6,17 +6,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { UpdateUserDetailAPI } from "@/lib/API";
 import { useUserStore } from "@/stores/userStore";
 import { logoutAction } from "@/app/(auth)/login/action";
+import toast from "react-hot-toast";
+import { User } from "@/interfaces/user";
 
 export default function settingsPage() {
   const { user, updateUserDetail, clearUserDetail } = useUserStore();
 
   const onSubmit: SubmitHandler<SettingsFormData> = async (data) => {
-    const res = await UpdateUserDetailAPI(data);
-    updateUserDetail(res);
+    toast.promise(UpdateUserDetailAPI(data), {
+      loading: "Saving...",
+      success: (res: User) => {
+        updateUserDetail(res);
+        return "Settings saved!";
+      },
+      error: (error: any) => {
+        return error.message;
+      },
+    });
   };
 
   const handleLogout = async () => {
-    clearUserDetail()
+    clearUserDetail();
     await logoutAction();
   };
 

@@ -56,27 +56,33 @@ export async function UpdateUserDetailAPI(data: SettingsFormData){
         headers: {
             'Authorization': `Bearer ${token.value}`
         }
+    }).catch((error) => {
+        throw new Error(error.response.data.message)
     })
     return res.data
 }
 
-export async function GetUnenrolledCoursesAPI(){
+export async function GetUnenrolledCoursesAPI(filter: courseFilter){
     const token = await getAuthToken()
-    const res = await axios.get<Course[]>(root + 'courses/browse', {
+    const res = await axios.post<Course[]>(root + 'courses/browse', filter, {
         headers: {
             'Authorization': `Bearer ${token.value}`
         }
+    }).catch((error) => {
+        throw new Error(error.response.data.message)
     })
 
     return res.data;
 }
 
-export async function GetMyCoursesAPI(){
+export async function GetMyCoursesAPI(filter: courseFilter){
     const token = await getAuthToken()
-    const res = await axios.get<Course[]>(root + 'courses/my-courses', {
+    const res = await axios.post<Course[]>(root + 'courses/my-courses', filter, {
         headers: {
             'Authorization': `Bearer ${token.value}`
         }
+    }).catch((error) => {
+        throw new Error(error.response.data.message)
     })
 
     return res.data;
@@ -106,6 +112,9 @@ export async function CreateCourseAPI(courseData: CourseFormData){
 
 export async function GetAllCategoriesAPI(){
     const res = await axios.get<Category[]>(root + 'categories')
+    .catch((error) => {
+        throw new Error(error.response.data.message)
+    })
     return res.data
 }
 

@@ -4,8 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Check } from "lucide-react";
 
 type Option = {
-  label: string;
-  value: string;
+  id: string;
+  name: string;
 };
 
 type Props = {
@@ -19,7 +19,7 @@ export default function Dropdown({ options, value, setValue }: Props) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [category, setCategory] = useState(value);
 
-  const selected = options.find((o) => o.value === category);
+  const selected = options.find((o) => o.id === category);
 
   // close when clicking outside
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function Dropdown({ options, value, setValue }: Props) {
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between border rounded-lg px-4 py-2 bg-gray-50 hover:bg-gray-100"
       >
-        {selected?.label}
+        {selected?.name}
 
         <ChevronDown size={16} />
       </button>
@@ -53,17 +53,17 @@ export default function Dropdown({ options, value, setValue }: Props) {
         <div className="absolute mt-2 w-full bg-white border rounded-lg shadow-lg z-50">
           {options.map((option) => (
             <div
-              key={option.value}
+              key={option.id}
               onClick={() => {
-                setValue(option.value);
-                setCategory(option.value);
+                setValue(option.id);
+                setCategory(option.id);
                 setOpen(false);
               }}
               className="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-100"
             >
-              {option.label}
+              {option.name}
 
-              {category === option.value && <Check size={16} />}
+              {category === option.id && <Check size={16} />}
             </div>
           ))}
         </div>
