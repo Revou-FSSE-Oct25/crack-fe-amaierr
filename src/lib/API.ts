@@ -11,6 +11,8 @@ import { Category } from "@/interfaces/category"
 import { SignUpData } from "@/interfaces/signUpData"
 import { LoginData } from "@/interfaces/loginData"
 import { Auth } from "@/interfaces/auth"
+import { CreateSubCurriculumn } from "@/interfaces/createSubCurriculumn"
+import { CourseDetail } from "@/interfaces/courseDetail"
 
 const root = process.env.API_URL
 
@@ -121,6 +123,32 @@ export async function GetAllCategoriesAPI(){
 export async function GetCourseDetailAPI(courseId: string){
     const token = await getAuthToken()
     const res = await axios.get<CourseDetail>(root + `courses/course/${courseId}`, {
+        headers: {
+            'Authorization': `Bearer ${token.value}`
+        }
+    }).catch((error) => {
+        throw new Error(error.response.data.message)
+    })
+
+    return res.data
+}
+
+export async function DeleteSubCurriculumn(subCurriculumId: string){
+    const token = await getAuthToken()
+    const res = await axios.delete(root + `sub-curriculumns/${subCurriculumId}`, {
+        headers: {
+            'Authorization': `Bearer ${token.value}`
+        }
+    }).catch((error) => {
+        throw new Error(error.response.data.message)
+    })
+
+    return res.data
+}
+
+export async function CreateSubCurriculumAPI(data: CreateSubCurriculumn){
+    const token = await getAuthToken()
+    const res = await axios.post(root + `sub-curriculumns`, data, {
         headers: {
             'Authorization': `Bearer ${token.value}`
         }

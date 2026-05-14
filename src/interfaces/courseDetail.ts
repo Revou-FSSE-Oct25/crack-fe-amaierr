@@ -1,4 +1,6 @@
-interface CourseDetail {
+import { Curriculum } from "./curriculumn"
+
+export interface CourseDetail {
     name: string
     description: string
     duration: number
@@ -9,19 +11,7 @@ interface CourseDetail {
     enrollments: {
         progressPercentage: number
     }[]
-    curriculumns: {
-        id: string
-        name: string
-        subCurriculums: {
-            id: string
-            name: string
-            duration: string
-            materialLink: string
-            progresses: {
-                isDone: boolean
-            }[]
-        }[]
-    }[]
+    curriculumns: Curriculum[]
     reviews: {
         rating: number
         user: {name: string}

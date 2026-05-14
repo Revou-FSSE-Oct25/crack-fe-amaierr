@@ -2,36 +2,23 @@
 
 import { useEffect, useState } from "react";
 import {
-  BookOpen,
-  ChevronDown,
-  ChevronUp,
   Clock,
   Download,
   MessageSquare,
-  Play,
   Star,
   Users,
   BadgeCheck,
-  CircleCheck,
 } from "lucide-react";
 import { GetCourseDetailAPI } from "@/lib/API";
 import { redirect, useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import LevelCategory from "@/components/levelCategory";
 import { useUserStore } from "@/stores/userStore";
-
-type Lesson = {
-  id: number;
-  title: string;
-  duration: string;
-  completed?: boolean;
-};
-
-type Section = {
-  id: number;
-  title: string;
-  lessons: Lesson[];
-};
+import AssignmentsTab from "./tabs/assignments";
+import CurriculumsTab from "./tabs/curriculums";
+import ReviewsTab from "./tabs/reviews";
+import { CourseDetail } from "@/interfaces/courseDetail";
+import { Curriculum } from "@/interfaces/curriculumn";
 
 type Assignment = {
   id: number;
@@ -65,14 +52,11 @@ export default function CourseDetailPage() {
     "curriculum" | "assignments" | "reviews"
   >("curriculum");
 
-  const [openSection, setOpenSection] = useState<string | null>();
   const [coursesDetail, setCoursesDetail] = useState<CourseDetail>();
+  const [changedTimes, setChangedTimes] = useState(0);
   const params = useParams<{ id: string }>();
   const { isInstructor } = useUserStore();
 
-  function toggleSection(id: string) {
-    setOpenSection((prev) => (prev === id ? null : id));
-  }
 
   useEffect(() => {
     async function fetchData() {
@@ -88,6 +72,21 @@ export default function CourseDetailPage() {
 
     fetchData();
   }, []);
+  
+  useEffect(() => {
+    async function fetchData() {
+      let courseRes;
+      try {
+        courseRes = await GetCourseDetailAPI(params.id);
+      } catch (error: any) {
+        toast.error(error.message);
+        redirect("/my-courses");
+      }
+      setCoursesDetail(courseRes);
+    }
+
+    fetchData();
+  }, [changedTimes]);
 
   return (
     <>
@@ -229,142 +228,21 @@ export default function CourseDetailPage() {
           <div className="rounded-2xl border bg-white p-6">
             {/* Curriculum */}
             {activeTab === "curriculum" && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-semibold">Course Content</h2>
-
-                {coursesDetail.curriculumns.map((curriculum) => (
-                  <div
-                    key={curriculum.id}
-                    className="border-b pb-4 last:border-none"
-                  >
-                    <button
-                      onClick={() => toggleSection(curriculum.id)}
-                      className="flex w-full items-center justify-between py-3 text-left"
-                    >
-                      <h3 className="text-xl font-semibold">
-                        {curriculum.name}
-                      </h3>
-
-                      {openSection === curriculum.id ? (
-                        <ChevronUp />
-                      ) : (
-                        <ChevronDown />
-                      )}
-                    </button>
-
-                    {openSection === curriculum.id && (
-                      <div className="space-y-3 pt-4">
-                        {curriculum.subCurriculums.map((subCurriculum) => (
-                          <div
-                            key={subCurriculum.id}
-                            className="flex items-center justify-between rounded-xl border p-4"
-                          >
-                            <div className="flex items-center gap-4">
-                              {!isInstructor &&
-                                (subCurriculum.progresses[0].isDone ? (
-                                  <CircleCheck className="text-green-500" />
-                                ) : (
-                                  <Play />
-                                ))}
-
-                              <div>
-                                <p className="font-medium">
-                                  {subCurriculum.name}
-                                </p>
-
-                                <p className="text-sm text-gray-500">
-                                  {subCurriculum.duration} min
-                                </p>
-                              </div>
-                            </div>
-
-                            <button className="font-medium">
-                              {!isInstructor &&
-                                (subCurriculum.progresses[0].isDone
-                                  ? "Review"
-                                  : "Start")}
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+              <CurriculumsTab 
+                curriculumns={coursesDetail.curriculumns} 
+                isInstructor={isInstructor}
+                setChangedTimes={setChangedTimes}
+              />
             )}
 
             {/* Assignments */}
             {activeTab === "assignments" && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-semibold">Course Assignments</h2>
-
-                {assignments.map((assignment) => (
-                  <div key={assignment.id} className="rounded-2xl border p-6">
-                    <div className="flex flex-col justify-between gap-6 md:flex-row">
-                      <div className="space-y-4">
-                        <div>
-                          <h3 className="text-2xl font-semibold">
-                            {assignment.title}
-                          </h3>
-
-                          <p className="mt-2 text-gray-500">
-                            Due: {assignment.dueDate}
-                          </p>
-                        </div>
-
-                        {assignment.grade && (
-                          <p className="font-semibold">
-                            Grade: {assignment.grade}
-                          </p>
-                        )}
-
-                        <button className="rounded-xl border px-5 py-3 font-medium transition hover:bg-gray-50">
-                          {assignment.status === "pending"
-                            ? "Submit Assignment"
-                            : "View Submission"}
-                        </button>
-                      </div>
-
-                      <div className="text-right">
-                        <span className="rounded-full bg-gray-100 px-4 py-2 text-sm font-medium capitalize">
-                          {assignment.status}
-                        </span>
-
-                        <p className="mt-4 text-lg text-gray-500">
-                          {assignment.points} points
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <AssignmentsTab assignments={assignments}/>
             )}
 
             {/* Reviews */}
             {activeTab === "reviews" && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-semibold">Student Reviews</h2>
-
-                {coursesDetail.reviews.map((review, index) => (
-                  <div key={index} className="rounded-2xl border p-6">
-                    <div className="mb-4 flex items-center gap-1">
-                      {Array.from({ length: review.rating }).map((_, index) => (
-                        <Star
-                          key={index}
-                          size={18}
-                          className="fill-yellow-400 text-yellow-400"
-                        />
-                      ))}
-                    </div>
-
-                    <h3 className="text-xl font-semibold">
-                      {review.user.name}
-                    </h3>
-
-                    <p className="mt-3 text-gray-600">"{review.comment}"</p>
-                  </div>
-                ))}
-              </div>
+              <ReviewsTab reviews={coursesDetail.reviews}/>
             )}
           </div>
         </div>

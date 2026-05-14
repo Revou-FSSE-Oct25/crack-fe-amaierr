@@ -28,8 +28,6 @@ export default function CreateCoursePage() {
   });
 
   async function onSubmit(data: CourseFormData) {
-    console.log("Course Created:", data);
-
     const res = await CreateCourseAPI(data);
   }
 

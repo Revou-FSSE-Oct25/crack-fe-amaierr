@@ -1,5 +1,6 @@
 import { User } from "@/interfaces/user"
 import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
 type UserState = {
     user: User
@@ -8,29 +9,36 @@ type UserState = {
     clearUserDetail: () => void
 }
 
-export const useUserStore = create<UserState>((set, get) => ({
-    user: {name: '', email: '', role: ''},
-    isInstructor: false,
-    updateUserDetail: (newData: User) => {
-        const { user } = get()
-
-        if(!user.role){
-            set({user: newData})
-        } else{
-            set({user: {
-                name: newData.name,
-                email: newData.email,
-                role: user.role
-            }})
+export const useUserStore = create<UserState>()(
+    persist(
+        (set, get) => ({
+            user: {name: '', email: '', role: ''},
+            isInstructor: false,
+            updateUserDetail: (newData: User) => {
+                const { user } = get()
+        
+                if(!user.role){
+                    set({user: newData})
+                } else{
+                    set({user: {
+                        name: newData.name,
+                        email: newData.email,
+                        role: user.role
+                    }})
+                }
+                if(user.role === "Instructor"){
+                    set({isInstructor: true})
+                }
+            },
+            clearUserDetail: () => {
+                set(
+                    {user: {name: '', email: '', role: ''},
+                    isInstructor: false
+                })
+            }
+        }),
+        {
+            name: 'user-storage'
         }
-        if(user.role === "Instructor"){
-            set({isInstructor: true})
-        }
-    },
-    clearUserDetail: () => {
-        set(
-            {user: {name: '', email: '', role: ''},
-            isInstructor: false
-        })
-    }
-}))
+    )
+)
