@@ -231,6 +231,7 @@ export default function CourseDetailPage() {
               <CurriculumsTab 
                 curriculumns={coursesDetail.curriculumns} 
                 isInstructor={isInstructor}
+                changedTimes={changedTimes}
                 setChangedTimes={setChangedTimes}
               />
             )}

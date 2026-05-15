@@ -22,10 +22,11 @@ interface CurriculumnsTabData{
         }[]
     }[],
     isInstructor: boolean,
+    changedTimes: number,
     setChangedTimes: Dispatch<SetStateAction<number>>
 }
 
-export default function CurriculumsTab({curriculumns, isInstructor, setChangedTimes}: CurriculumnsTabData){
+export default function CurriculumsTab({curriculumns, isInstructor, changedTimes, setChangedTimes}: CurriculumnsTabData){
     const [openSection, setOpenSection] = useState<string | null>();
     const [isCreating, setIsCreating] = useState(false)
 
@@ -49,7 +50,7 @@ export default function CurriculumsTab({curriculumns, isInstructor, setChangedTi
                     {
                       loading: 'Deleting...',
                       success: () =>{
-                        setChangedTimes(+2)
+                        setChangedTimes(changedTimes + 1)
                         return <b>Delete Complete!</b>}
                       ,
                       error: (error: any) => {
@@ -86,7 +87,7 @@ export default function CurriculumsTab({curriculumns, isInstructor, setChangedTi
       } 
       try{
         await CreateSubCurriculumAPI(data);
-        setChangedTimes(+1)
+        setChangedTimes(changedTimes + 1)
         setIsCreating(false)
         reset()
       } catch (error: any) {

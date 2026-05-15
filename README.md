@@ -1,39 +1,147 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-nyOcXJT)
+# LMS Frontend
 
+Frontend application for the Learning Management System (LMS) platform.  
+This project provides an interactive learning experience for students and instructors with course management, curriculum tracking, assignments, and progress monitoring.
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Preview
 
-## Getting Started
+[LMS Frontend Deployment Link](https://lms-fe-rho-nine.vercel.app)
 
-First, run the development server:
+[Figma design reference](https://www.figma.com/make/uGKR8LKnSAMjEvfPvQlm8t/Learning-Management-System--Community-?p=f)
+
+---
+
+# Features
+
+## Student Features
+
+- Browse available courses
+- Enroll in courses
+- View course curriculum
+- Track learning progress
+- Access assignments and learning materials
+- Watch course content
+- Responsive learning dashboard
+
+## Instructor Features
+
+- Create and manage courses
+- Add curriculum and course sections
+- Upload learning materials
+- Monitor enrolled students
+- Manage assignments
+- Track course activity
+
+## Authentication
+
+- User login & registration
+- Protected routes
+- Role-based access
+
+## UI/UX
+
+- Responsive design
+- Modern dashboard layout
+- Interactive tabs and course navigation
+- Mobile-friendly interface
+
+---
+
+# Tech Stack
+
+## Frontend
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+## Additional Libraries
+
+- Axios
+- React Hook Form
+- Zustand / Context API
+- Shadcn UI (if used)
+
+---
+
+# Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+src/
+├── app/
+├── components/
+├── features/
+├── hooks/
+├── lib/
+├── services/
+├── styles/
+└── types/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Clone the repository:**
+```bash
+git clone https://github.com/amaierr/LMS-fe.git
+```
 
-## Learn More
+**Move into the project directory:**
+```bash
+cd LMS-fe
+```
 
-To learn more about Next.js, take a look at the following resources:
+**Install dependencies:**
+```bash
+npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Run the development server:**
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Open in browser:**
+```bash
+http://localhost:3000
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Environment Variables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Create a .env.local file in the root directory.
+
+**Example:**
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:8080
+```
+
+---
+
+# API Integration
+
+This frontend connects to the LMS backend API for:
+
+- Authentication
+- Course management
+- Enrollment
+- Assignments
+- User management
+
+Backend Repository:
+
+[LMS Backend Repository](https://github.com/amaierr/LMS-be)
+
+---
+
+# Future Improvements
+- Video streaming integration
+- Real-time notifications
+- Quiz system
+- Certificate generation
+- Discussion forum
+- Dark mode support
