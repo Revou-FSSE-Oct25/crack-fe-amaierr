@@ -9,6 +9,12 @@ This project provides an interactive learning experience for students and instru
 
 [Figma design reference](https://www.figma.com/make/uGKR8LKnSAMjEvfPvQlm8t/Learning-Management-System--Community-?p=f)
 
+### Instructor Dashboard
+![instructor dashboard](documentation/instructor%20dashboard.png)
+
+### Student Dashboard
+![instructor dashboard](documentation/student%20dashboard.png)
+
 ---
 
 # Features
